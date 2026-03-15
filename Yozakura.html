@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yozakura — Anime Pastel Palette</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --ease: cubic-bezier(0.4,0,0.2,1); }
+
+body {
+  font-family: 'DM Mono', monospace;
+  min-height: 100vh;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+body.yoru { background:#151c30; color:#c2cfe8; --border:#4a587e; --muted:#7284a6; --text:#c2cfe8; }
+body.hiru { background:#f0e8f5; color:#3d2d52; --border:#b8a8d4; --muted:#9080b0; --text:#3d2d52; }
+
+.wrap { max-width: 980px; margin: 0 auto; padding: 44px 20px 80px; }
+
+/* HEADER */
+header { margin-bottom: 52px; }
+.h-row { display:flex; align-items:baseline; gap:12px; margin-bottom:6px; flex-wrap:wrap; }
+h1 { font-family:'Shippori Mincho',serif; font-size:2.8rem; font-weight:700; letter-spacing:-0.02em; }
+.ja { font-family:'Shippori Mincho',serif; font-size:1rem; opacity:0.4; letter-spacing:0.1em; }
+.sub { font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; opacity:0.4; margin-bottom:20px; }
+
+/* TOGGLE */
+.toggle { display:inline-flex; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+.tbtn {
+  padding:9px 22px; font-family:'DM Mono',monospace; font-size:0.74rem;
+  letter-spacing:0.08em; text-transform:uppercase; cursor:pointer;
+  border:none; background:transparent; color:var(--muted);
+  transition:background 0.2s,color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tbtn.on  { background:var(--border); color:var(--text); }
+.tbtn.off { opacity: 0.5; }
+.controls { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+
+/* SECTIONS */
+.sect { margin-top:40px; }
+.sect-label { font-size:0.66rem; letter-spacing:0.2em; text-transform:uppercase; opacity:0.38; margin-bottom:12px; }
+.grid { display:grid; gap:7px; }
+.g6 { grid-template-columns:repeat(6,1fr); }
+.g3 { grid-template-columns:repeat(3,1fr); }
+.g8 { grid-template-columns:repeat(4,1fr); }
+
+/* SWATCH */
+.sw {
+  border-radius:9px; padding:11px 12px 10px;
+  position:relative;
+  transition:transform 0.15s,box-shadow 0.15s;
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+}
+.sw:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,0.2); z-index:1; }
+.sw.tall  { padding-top:28px; }
+.sw-name  { display:block; font-family:'Shippori Mincho',serif; font-size:0.88rem; font-weight:700; margin-bottom:4px; }
+.sw-role  { display:block; font-size:0.58rem; opacity:0.42; margin-bottom:6px; }
+.sw-codes { display:flex; flex-direction:column; gap:1px; }
+.sw-code  {
+  display:flex; align-items:center; gap:5px;
+  font-family:'DM Mono',monospace;
+  white-space:nowrap;
+  padding:4px 5px; border-radius:4px; cursor:pointer;
+  min-height: 28px;
+  transition:opacity 0.15s, background 0.15s;
+  opacity:0.75;
+  -webkit-tap-highlight-color: transparent;
+}
+.sw-code:hover, .sw-code:active { opacity:1; background:rgba(0,0,0,0.12); }
+.sw-code .sw-label {
+  font-size:0.52rem; opacity:0.55; letter-spacing:0.08em;
+  text-transform:uppercase; flex-shrink:0; width:2.6em;
+}
+.sw-code .sw-val { font-size:0.63rem; letter-spacing:0.01em; }
+.sw-code.flash-row { background:rgba(255,255,255,0.22) !important; opacity:1; }
+.sw-code.flash-row .sw-val { font-weight:bold; }
+
+/* DIVIDER */
+.div { height:1px; background:var(--border); opacity:0.25; margin:40px 0; }
+
+/* STRIP */
+.strip { display:flex; height:8px; border-radius:5px; overflow:hidden; margin-top:44px; }
+.strip div { flex:1; }
+
+/* EXAMPLES */
+.ex-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+.ex-panel { border-radius: 12px; overflow: hidden; font-size: 0.78rem; line-height: 1.65; }
+#ex-editor { grid-column: 1 / -1; }
+
+.ex-titlebar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.ex-dots { display:flex; gap:6px; }
+.ex-dots span { width:11px; height:11px; border-radius:50%; display:block; }
+.ex-fname { font-size:0.7rem; letter-spacing:0.06em; opacity:0.5; }
+
+/* editor */
+.ex-body { display:flex; }
+.ex-gutter {
+  padding: 14px 12px 14px 14px;
+  text-align: right; font-size: 0.72rem; line-height: 1.65;
+  user-select: none; min-width: 40px; opacity: 0.3; flex-shrink:0;
+}
+.ex-code { padding: 14px 16px; flex: 1; overflow-x: auto; white-space: pre; font-size:0.78rem; }
+
+/* terminal */
+.ex-terminal { padding: 14px 16px; min-height: 180px; white-space: pre; overflow-x: auto; font-size:0.75rem; }
+
+/* ui mockup */
+.ex-ui-body { display:flex; height:100%; min-height: 180px; }
+.ex-sidebar { width: 160px; padding: 10px 0; border-right: 1px solid rgba(255,255,255,0.07); flex-shrink:0; }
+.ex-sidebar-item {
+  padding: 6px 14px; font-size: 0.72rem; cursor: default;
+  display: flex; align-items: center; gap: 8px; user-select:none;
+}
+.ex-sidebar-icon { font-size: 0.8rem; opacity: 0.7; }
+.ex-main { flex:1; padding: 12px 14px; min-width:0; }
+.ex-badge {
+  display:inline-block; padding: 2px 8px; border-radius:4px;
+  font-size: 0.66rem; letter-spacing:0.05em; margin: 2px 3px 2px 0;
+}
+.ex-statusbar {
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding: 5px 0; font-size: 0.66rem; letter-spacing:0.05em;
+}
+.ex-status-item { display:flex; align-items:center; gap:5px; }
+
+/* ── TABLET (≤ 768px) ── */
+@media (max-width: 768px) {
+  .wrap { padding: 36px 16px 72px; }
+  h1 { font-size: 2.2rem; }
+  .g6 { grid-template-columns: repeat(3, 1fr); }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .g8 { grid-template-columns: repeat(2, 1fr); }
+  .ex-grid { grid-template-columns: 1fr; }
+  #ex-editor { grid-column: 1; }
+  .ex-sidebar { width: 140px; }
+}
+
+/* ── MOBILE (≤ 480px) ── */
+@media (max-width: 480px) {
+  .wrap { padding: 28px 14px 60px; }
+  h1 { font-size: 1.8rem; }
+  .sub { font-size: 0.66rem; }
+  .sect { margin-top: 32px; }
+  .div { margin: 32px 0; }
+  /* base: 2 cols — enough room for role text */
+  .g6 { grid-template-columns: repeat(2, 1fr); }
+  /* surface/text: full width each */
+  .g3 { grid-template-columns: 1fr; }
+  /* accents: 1 col — codes must fit on one line */
+  .g8 { grid-template-columns: 1fr; }
+  .sw.tall { padding-top: 14px; }
+  .sw-name { font-size: 0.82rem; }
+  .sw-code .sw-val { font-size: 0.7rem; }
+  /* examples: hide gutter, shrink sidebar */
+  .ex-gutter { display: none; }
+  .ex-code { font-size: 0.7rem; padding: 12px 12px; }
+  .ex-terminal { font-size: 0.68rem; padding: 12px 12px; min-height: 140px; }
+  .ex-sidebar { width: 110px; }
+  .ex-sidebar-item { padding: 5px 10px; font-size: 0.66rem; }
+  .ex-main { padding: 10px 12px; }
+  .ex-badge { font-size: 0.6rem; padding: 2px 6px; }
+}
+</style>
+</head>
+<body class="yoru">
+<div class="wrap">
+
+  <header>
+    <div class="h-row"><h1>Yozakura</h1><span class="ja">夜桜</span></div>
+    <p class="sub">Anime-inspired pastel palette · Two flavours</p>
+    <div class="controls">
+      <div class="toggle">
+        <button class="tbtn on" onclick="set('yoru')">夜 Yoru</button>
+        <button class="tbtn"    onclick="set('hiru')">昼 Hiru</button>
+      </div>
+      <div class="toggle">
+        <button class="tbtn on" id="dec-btn" onclick="toggleDecoration()">Decoration</button>
+      </div>
+    </div>
+  </header>
+
+  <p class="sect-label">Base</p>
+  <div class="grid g6" id="r-base"></div>
+
+  <div class="sect">
+    <p class="sect-label">Surface &amp; Overlay</p>
+    <div class="grid g3" id="r-surface"></div>
+  </div>
+
+  <div class="sect">
+    <p class="sect-label">Text</p>
+    <div class="grid g3" id="r-text"></div>
+  </div>
+
+  <div class="div"></div>
+
+  <p class="sect-label">Accents</p>
+  <div class="grid g8" id="r-accent"></div>
+
+  <div class="strip" id="strip"></div>
+
+  <!-- EXAMPLES -->
+  <div class="div" style="margin-top:56px"></div>
+  <p class="sect-label">Examples</p>
+
+  <div class="ex-grid">
+    <div class="ex-panel" id="ex-editor">
+      <div class="ex-titlebar" id="ex-tb-editor">
+        <div class="ex-dots"><span></span><span></span><span></span></div>
+        <span class="ex-fname">scene.ts</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-gutter" id="ex-gutter"></div>
+        <pre class="ex-code" id="ex-code"></pre>
+      </div>
+    </div>
+
+    <div class="ex-panel" id="ex-term">
+      <div class="ex-titlebar" id="ex-tb-term">
+        <div class="ex-dots"><span></span><span></span><span></span></div>
+        <span class="ex-fname">zsh — yozakura</span>
+      </div>
+      <pre class="ex-terminal" id="ex-terminal"></pre>
+    </div>
+
+    <div class="ex-panel" id="ex-ui">
+      <div class="ex-titlebar" id="ex-tb-ui">
+        <div class="ex-dots"><span></span><span></span><span></span></div>
+        <span class="ex-fname">Explorer</span>
+      </div>
+      <div class="ex-ui-body" id="ex-ui-body"></div>
+    </div>
+  </div>
+
+</div>
+<script>
+const P = {
+  yoru: {
+    base: [
+      { name:"Void",   role:"deepest bg · statusbar",      hex:"#0d1320" },
+      { name:"Depths", role:"dark bg · terminal",          hex:"#111826" },
+      { name:"Base",   role:"main background",             hex:"#151c30" },
+      { name:"Raised", role:"popups · floating panels",    hex:"#1e2844" },
+      { name:"Hover",  role:"hovered rows & items",        hex:"#27325a" },
+      { name:"Active", role:"selected tab · active item",  hex:"#313e70" },
+    ],
+    surface: [
+      { name:"Rim",    role:"borders · dividers",          hex:"#4a587e" },
+      { name:"Select", role:"visual selection",            hex:"#5e6e92" },
+      { name:"Match",  role:"search highlight",            hex:"#7284a6" },
+    ],
+    text: [
+      { name:"Faint",  role:"disabled · line numbers",     hex:"#8898ba" },
+      { name:"Muted",  role:"comments · inactive labels",  hex:"#a0aece" },
+      { name:"Text",   role:"primary foreground",          hex:"#c2cfe8" },
+    ],
+    accent: [
+      { name:"Lantern",  hex:"#f2d4b8", fg:"#2a1a0a" },
+      { name:"Blush",    hex:"#d8aac4", fg:"#2a0a1a" },
+      { name:"Petal",    hex:"#b898d0", fg:"#1a0a2a" },
+      { name:"Iris",     hex:"#9080c0", fg:"#f0ecf8" },
+      { name:"Wisteria", hex:"#8898c8", fg:"#f0f0f8" },
+      { name:"Indigo",   hex:"#6080b8", fg:"#e8f0f8" },
+      { name:"Harbour",  hex:"#507098", fg:"#e8f0f8" },
+      { name:"Sky",      hex:"#7ab0c8", fg:"#f0f8fc" },
+      { name:"Seafoam",  hex:"#609098", fg:"#e8f8f8" },
+      { name:"Moss",     hex:"#7aa898", fg:"#e8f8f0" },
+      { name:"Starlight",hex:"#e8d870", fg:"#2a2800" },
+      { name:"Amber",    hex:"#d0a870", fg:"#2a1800" },
+      { name:"Ember",    hex:"#b07888", fg:"#f8f0f0" },
+      { name:"Crimson",  hex:"#c07888", fg:"#f8f0f0" },
+      { name:"Bloom",    hex:"#e098a0", fg:"#2a0a0a" },
+      { name:"Moon",     hex:"#e8eef8", fg:"#1a2038" },
+    ],
+  },
+
+  hiru: {
+    base: [
+      { name:"Stone",  role:"deepest bg · borders",        hex:"#d4c4e0" },
+      { name:"Dusk",   role:"panel · sidebar bg",          hex:"#ddd0ea" },
+      { name:"Base",   role:"main background",             hex:"#f0e8f5" },
+      { name:"Raised", role:"popups · floating panels",    hex:"#ead8f2" },
+      { name:"Hover",  role:"hovered rows & items",        hex:"#e0d0ec" },
+      { name:"Active", role:"selected tab · active item",  hex:"#d4c4e4" },
+    ],
+    surface: [
+      { name:"Rim",    role:"borders · dividers",          hex:"#c0b0d8" },
+      { name:"Select", role:"visual selection",            hex:"#a898c4" },
+      { name:"Match",  role:"search highlight",            hex:"#9080b0" },
+    ],
+    text: [
+      { name:"Faint",  role:"disabled · line numbers",     hex:"#7868a0" },
+      { name:"Muted",  role:"comments · inactive labels",  hex:"#4e3e6e" },
+      { name:"Text",   role:"primary foreground",          hex:"#2a1848" },
+    ],
+    accent: [
+      { name:"Lantern",  hex:"#a86018", fg:"#f8f0e4" },
+      { name:"Blush",    hex:"#a03868", fg:"#f8eef4" },
+      { name:"Petal",    hex:"#8830a0", fg:"#f8eef8" },
+      { name:"Iris",     hex:"#6030a0", fg:"#f0eaf8" },
+      { name:"Wisteria", hex:"#4840b0", fg:"#eeeaf8" },
+      { name:"Indigo",   hex:"#2858b8", fg:"#e8f0f8" },
+      { name:"Harbour",  hex:"#286890", fg:"#e8f0f8" },
+      { name:"Sky",      hex:"#2878a8", fg:"#e8f4fc" },
+      { name:"Seafoam",  hex:"#187870", fg:"#e8f8f8" },
+      { name:"Moss",     hex:"#287848", fg:"#e8f8ee" },
+      { name:"Starlight",hex:"#887018", fg:"#f8f4e0" },
+      { name:"Amber",    hex:"#985818", fg:"#f8f0e0" },
+      { name:"Ember",    hex:"#884058", fg:"#f8eef4" },
+      { name:"Crimson",  hex:"#983040", fg:"#f8eaec" },
+      { name:"Bloom",    hex:"#a02868", fg:"#f8eef6" },
+      { name:"Cream",    hex:"#806030", fg:"#f8f4ee" },
+    ],
+  },
+};
+
+function lum(h){
+  const r=parseInt(h.slice(1,3),16)/255,g=parseInt(h.slice(3,5),16)/255,b=parseInt(h.slice(5,7),16)/255;
+  const f=x=>x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4);
+  return 0.2126*f(r)+0.7152*f(g)+0.0722*f(b);
+}
+function fg(h){ return lum(h)>0.35?'#2a1a3a':'#f0ecf8'; }
+
+function hexToRgb(h){
+  const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);
+  return {r,g,b,str:`rgb(${r}, ${g}, ${b})`};
+}
+function hexToHsl(h){
+  let {r,g,b}=hexToRgb(h);
+  r/=255; g/=255; b/=255;
+  const max=Math.max(r,g,b), min=Math.min(r,g,b);
+  let hh,s,l=(max+min)/2;
+  if(max===min){ hh=s=0; }
+  else{
+    const d=max-min; s=l>0.5?d/(2-max-min):d/(max+min);
+    switch(max){
+      case r: hh=((g-b)/d+(g<b?6:0))/6; break;
+      case g: hh=((b-r)/d+2)/6; break;
+      default:hh=((r-g)/d+4)/6;
+    }
+  }
+  return `hsl(${Math.round(hh*360)}, ${Math.round(s*100)}%, ${Math.round(l*100)}%)`;
+}
+
+let decorate = true;
+
+function stripVal(val) {
+  if (val.startsWith('#'))          return val.slice(1);
+  if (val.startsWith('rgb('))       return val.slice(4, -1);
+  if (val.startsWith('hsl('))       return val.slice(4, -1);
+  return val;
+}
+
+function displayVal(raw) {
+  return decorate ? raw : stripVal(raw);
+}
+
+function toggleDecoration() {
+  decorate = !decorate;
+  const btn = document.getElementById('dec-btn');
+  btn.classList.toggle('on', decorate);
+  btn.classList.toggle('off', !decorate);
+  document.querySelectorAll('.sw-code').forEach(row => {
+    row.querySelector('.sw-val').textContent = displayVal(row.dataset.val);
+  });
+}
+
+function copyRow(el, rawVal){
+  const toCopy = decorate ? rawVal : stripVal(rawVal);
+  navigator.clipboard.writeText(toCopy);
+  el.classList.add('flash-row');
+  const valEl = el.querySelector('.sw-val');
+  const orig = valEl.textContent;
+  valEl.textContent = 'copied!';
+  setTimeout(()=>{
+    el.classList.remove('flash-row');
+    valEl.textContent = orig;
+  }, 800);
+}
+
+function sw(item, tall){
+  const c = item.fg || fg(item.hex);
+  const el = document.createElement('div');
+  el.className = 'sw'+(tall?' tall':'');
+  el.style.cssText = `background:${item.hex};color:${c}`;
+
+  const rgb = hexToRgb(item.hex);
+  const hsl = hexToHsl(item.hex);
+
+  const codes = [
+    { label:'HEX', val: item.hex },
+    { label:'RGB', val: rgb.str },
+    { label:'HSL', val: hsl },
+  ];
+
+  const codesHTML = codes.map(c2 =>
+    `<div class="sw-code" data-val="${c2.val}">
+      <span class="sw-label">${c2.label}</span>
+      <span class="sw-val">${displayVal(c2.val)}</span>
+    </div>`
+  ).join('');
+
+  el.innerHTML = `
+    <span class="sw-name">${item.name}</span>
+    ${item.role ? `<span class="sw-role">${item.role}</span>` : ''}
+    <div class="sw-codes">${codesHTML}</div>
+  `;
+
+  el.querySelectorAll('.sw-code').forEach(row => {
+    row.addEventListener('click', e => {
+      e.stopPropagation();
+      copyRow(row, row.dataset.val);
+    });
+  });
+
+  return el;
+}
+
+function fill(id, items, tall){
+  const el = document.getElementById(id);
+  el.innerHTML = '';
+  items.forEach(c => el.appendChild(sw(c, tall)));
+}
+
+// ── accent lookup helpers ──
+function a(p, name){ return (p.accent.find(x=>x.name===name)||{hex:'#888'}).hex; }
+function b(p, name){ return (p.base.find(x=>x.name===name)||{hex:'#888'}).hex; }
+function s(p, name){ return (p.surface.find(x=>x.name===name)||{hex:'#888'}).hex; }
+function t(p, name){ return (p.text.find(x=>x.name===name)||{hex:'#888'}).hex; }
+
+// ── span helper ──
+function span(color, text){ return `<span style="color:${color}">${text}</span>`; }
+
+// ── EDITOR RENDER ──
+function renderEditor(p){
+  const kw=a(p,'Iris'), ty=a(p,'Petal'), fn=a(p,'Sky'),
+        va=a(p,'Wisteria'), st=a(p,'Blush'), co=a(p,'Lantern'),
+        cm=t(p,'Muted'), op=s(p,'Match'), pu=s(p,'Select'),
+        bi=a(p,'Indigo'), text=t(p,'Text');
+
+  const bg   = b(p,'Base');
+  const gutBg = p.base[1].hex;   // Depths / Dusk
+  const tbBg  = p.base[0].hex;   // Void / Stone
+  const activeLineBg = b(p,'Raised');
+
+  document.getElementById('ex-editor').style.background = bg;
+  document.getElementById('ex-tb-editor').style.background = tbBg;
+  document.getElementById('ex-tb-editor').style.color = cm;
+
+  const dots = document.querySelectorAll('#ex-tb-editor .ex-dots span');
+  [a(p,'Bloom'), a(p,'Starlight'), a(p,'Moss')].forEach((c,i)=>dots[i]&&(dots[i].style.background=c));
+
+  const gutter = document.getElementById('ex-gutter');
+  gutter.style.cssText = `background:${gutBg};color:${cm}`;
+  gutter.textContent = Array.from({length:18},(_,i)=>String(i+1).padStart(2)).join('\n');
+
+  const lines = [
+    `${span(cm,'// yozakura · scene renderer')}`,
+    `${span(kw,'import')} ${span(pu,'{')} ${span(ty,'Scene')}, ${span(ty,'Star')} ${span(pu,'}')} ${span(kw,'from')} ${span(st,"'@yozakura/core'")}${span(pu,';')}`,
+    ``,
+    `${span(kw,'interface')} ${span(ty,'NightScene')} ${span(pu,'{')}`,
+    `  ${span(va,'name')}${span(pu,':')}       ${span(ty,'string')}${span(pu,';')}`,
+    `  ${span(va,'starCount')}${span(pu,':')}  ${span(ty,'number')}${span(pu,';')}`,
+    `  ${span(va,'hasMoon')}${span(pu,':')}   ${span(ty,'boolean')}${span(pu,';')}`,
+    `  ${span(va,'palette')}${span(pu,':')}   ${span(ty,'string')}${span(pu,'[]')}${span(pu,';')}`,
+    `${span(pu,'}')}`,
+    ``,
+    `${span(kw,'async function')} ${span(fn,'renderScene')}${span(pu,'(')}${span(va,'scene')}${span(pu,':')} ${span(ty,'NightScene')}${span(pu,')')} ${span(pu,'{')}`,
+    `  ${span(cm,'// clamp opacity to [0, 1]')}`,
+    `  ${span(kw,'const')} ${span(va,'opacity')} ${span(op,'=')} ${span(bi,'Math')}.${span(fn,'min')}${span(pu,'(')}${span(co,'1')}, ${span(va,'scene')}.${span(va,'starCount')} ${span(op,'/')} ${span(co,'100')}${span(pu,')')};`,
+    `  ${span(kw,'const')} ${span(va,'label')}   ${span(op,'=')} ${span(st,'`Scene: ${')}${span(va,'scene.name')}${span(st,'}`')}${span(pu,';')}`,
+    `  ${span(kw,'if')} ${span(pu,'(')}${span(va,'scene.hasMoon')}${span(pu,')')}`,
+    `    ${span(kw,'await')} ${span(fn,'drawMoon')}${span(pu,'(')}${span(va,'opacity')}${span(pu,')')};`,
+    `  ${span(kw,'return')} ${span(bi,'new')} ${span(ty,'Scene')}${span(pu,'(')}${span(va,'scene')}${span(pu,')')};`,
+    `${span(pu,'}')}`,
+  ];
+
+  const code = document.getElementById('ex-code');
+  code.style.color = text;
+  // highlight active line (13, 0-indexed 12)
+  const highlighted = lines.map((l,i)=>
+    i===12
+      ? `<span style="display:block;background:${activeLineBg};margin:0 -16px;padding:0 16px">${l}</span>`
+      : `<span style="display:block">${l}</span>`
+  ).join('');
+  code.innerHTML = highlighted;
+}
+
+// ── TERMINAL RENDER ──
+function renderTerminal(p){
+  const tbBg   = p.base[0].hex;   // deepest (Void / Stone)
+  const termBg = p.base[1].hex;   // dark bg  (Depths / Dusk)
+  const cm = t(p,'Muted');
+
+  document.getElementById('ex-term').style.background = termBg;
+  document.getElementById('ex-tb-term').style.background = tbBg;
+  document.getElementById('ex-tb-term').style.color = cm;
+
+  const dots = document.querySelectorAll('#ex-tb-term .ex-dots span');
+  [a(p,'Bloom'), a(p,'Starlight'), a(p,'Moss')].forEach((c,i)=>dots[i]&&(dots[i].style.background=c));
+
+  const prompt = `${span(a(p,'Moss'),'❯')} `;
+  const user   = span(a(p,'Sky'),'~/projects/yozakura');
+  const branch = span(a(p,'Iris'),' ⎇ main');
+  const lines = [
+    `${span(t(p,'Muted'),'Last login: Mon Mar 10 22:14 on ttys001')}`,
+    ``,
+    `${user}${branch}`,
+    `${prompt}${span(a(p,'Wisteria'),'ls')} ${span(a(p,'Sky'),'-la')}`,
+    `${span(t(p,'Muted'),'total 48')}`,
+    `${span(a(p,'Indigo'),'drwxr-xr-x')}  ${span(a(p,'Lantern'),'.')}`,
+    `${span(a(p,'Indigo'),'drwxr-xr-x')}  ${span(t(p,'Muted'),'..')}`,
+    `${span(a(p,'Seafoam'),'-rw-r--r--')}  ${span(t(p,'Text'),'package.json')}`,
+    `${span(a(p,'Seafoam'),'-rw-r--r--')}  ${span(t(p,'Text'),'tsconfig.json')}`,
+    `${span(a(p,'Indigo'),'drwxr-xr-x')}  ${span(a(p,'Sky'),'src')}`,
+    `${span(a(p,'Indigo'),'drwxr-xr-x')}  ${span(a(p,'Sky'),'dist')}`,
+    ``,
+    `${user}${branch}`,
+    `${prompt}${span(a(p,'Wisteria'),'paru')} ${span(a(p,'Sky'),'-Syu')}`,
+    `${span(a(p,'Moss'),'✔')} ${span(t(p,'Text'),'yozakura-theme')} ${span(t(p,'Muted'),'1.2.0 → ')}${span(a(p,'Starlight'),'1.3.0')}`,
+    `${span(a(p,'Moss'),'✔')} ${span(t(p,'Text'),'neovim')} ${span(t(p,'Muted'),'0.9.4 → ')}${span(a(p,'Starlight'),'0.9.5')}`,
+    `${span(a(p,'Ember'),'✘')} ${span(t(p,'Text'),'broken-pkg')} ${span(a(p,'Crimson'),'dependency conflict')}`,
+    ``,
+    `${user}${branch}`,
+    `${prompt}${span(a(p,'Bloom'),'_')}`,
+  ];
+
+  document.getElementById('ex-terminal').style.color = t(p,'Text');
+  document.getElementById('ex-terminal').innerHTML = lines.join('\n');
+}
+
+// ── UI MOCKUP RENDER ──
+function renderUI(p){
+  const tbBg      = p.base[0].hex;   // Void / Stone
+  const sidebarBg = p.base[1].hex;   // Depths / Dusk
+  const mainBg = b(p,'Base');
+  const activeBg = b(p,'Active');
+  const cm = t(p,'Muted');
+
+  document.getElementById('ex-ui').style.background = mainBg;
+  document.getElementById('ex-tb-ui').style.background = tbBg;
+  document.getElementById('ex-tb-ui').style.color = cm;
+
+  const dots = document.querySelectorAll('#ex-tb-ui .ex-dots span');
+  [a(p,'Bloom'), a(p,'Starlight'), a(p,'Moss')].forEach((c,i)=>dots[i]&&(dots[i].style.background=c));
+
+  const files = [
+    { icon:'📁', name:'src',         active:false, color: a(p,'Sky') },
+    { icon:'📄', name:'scene.ts',    active:true,  color: t(p,'Text') },
+    { icon:'📄', name:'palette.ts',  active:false, color: t(p,'Text') },
+    { icon:'📄', name:'renderer.ts', active:false, color: t(p,'Text') },
+    { icon:'📁', name:'dist',        active:false, color: a(p,'Sky') },
+    { icon:'📄', name:'package.json',active:false, color: a(p,'Amber') },
+    { icon:'📄', name:'.gitignore',  active:false, color: cm },
+  ];
+
+  const sidebar = document.createElement('div');
+  sidebar.className = 'ex-sidebar';
+  sidebar.style.background = sidebarBg;
+  files.forEach(f => {
+    const item = document.createElement('div');
+    item.className = 'ex-sidebar-item' + (f.active?' active':'');
+    item.style.color = f.color;
+    if(f.active) item.style.background = activeBg;
+    item.innerHTML = `<span class="ex-sidebar-icon">${f.icon}</span>${f.name}`;
+    sidebar.appendChild(item);
+  });
+
+  const main = document.createElement('div');
+  main.className = 'ex-main';
+  main.style.color = t(p,'Text');
+
+  const badges = [
+    { label:'keyword',  color: a(p,'Iris') },
+    { label:'type',     color: a(p,'Petal') },
+    { label:'function', color: a(p,'Sky') },
+    { label:'string',   color: a(p,'Blush') },
+    { label:'constant', color: a(p,'Lantern') },
+    { label:'comment',  color: s(p,'Select') },
+    { label:'operator', color: s(p,'Match') },
+    { label:'variable', color: a(p,'Wisteria') },
+  ];
+  const badgeHTML = badges.map(b2 => {
+    const txtColor = lum(b2.color)>0.35?'#2a1a3a':'#f0ecf8';
+    return `<span class="ex-badge" style="background:${b2.color};color:${txtColor}">${b2.label}</span>`;
+  }).join('');
+
+  const diags = [
+    { dot: a(p,'Crimson'), label:`2 errors` },
+    { dot: a(p,'Starlight'), label:`1 warning` },
+    { dot: a(p,'Seafoam'), label:`4 hints` },
+  ];
+  const diagHTML = diags.map(d =>
+    `<span class="ex-status-item">${span(d.dot,'●')} ${span(t(p,'Muted'),d.label)}</span>`
+  ).join('');
+
+  const gitItems = [
+    { dot: a(p,'Moss'), label:'+12' },
+    { dot: a(p,'Amber'), label:'~3' },
+    { dot: a(p,'Ember'), label:'-1' },
+  ];
+  const gitHTML = gitItems.map(g =>
+    `<span class="ex-status-item">${span(g.dot,'●')} ${span(t(p,'Muted'),g.label)}</span>`
+  ).join('');
+
+  main.innerHTML = `
+    <div style="font-size:0.7rem;opacity:0.4;margin-bottom:10px;letter-spacing:0.1em;text-transform:uppercase">Syntax tokens</div>
+    <div style="margin-bottom:16px">${badgeHTML}</div>
+    <div style="font-size:0.7rem;opacity:0.4;margin-bottom:8px;letter-spacing:0.1em;text-transform:uppercase">Diagnostics</div>
+    <div class="ex-statusbar" style="padding:0;border:none;margin-bottom:14px">${diagHTML}</div>
+    <div style="font-size:0.7rem;opacity:0.4;margin-bottom:8px;letter-spacing:0.1em;text-transform:uppercase">Git diff</div>
+    <div class="ex-statusbar" style="padding:0;border:none">${gitHTML}</div>
+  `;
+
+  const body = document.getElementById('ex-ui-body');
+  body.innerHTML = '';
+  body.appendChild(sidebar);
+  body.appendChild(main);
+}
+
+function set(f){
+  document.body.className = f;
+  document.querySelectorAll('.tbtn').forEach(b =>
+    b.classList.toggle('on', b.textContent.includes(f==='yoru'?'夜':'昼'))
+  );
+  const p = P[f];
+  fill('r-base',    p.base,    true);
+  fill('r-surface', p.surface, true);
+  fill('r-text',    p.text,    true);
+  fill('r-accent',  p.accent,  true);
+  const strip = document.getElementById('strip');
+  strip.innerHTML = '';
+  p.accent.forEach(c =>{ const d=document.createElement('div'); d.style.background=c.hex; strip.appendChild(d); });
+
+  renderEditor(p);
+  renderTerminal(p);
+  renderUI(p);
+}
+
+set('yoru');
+</script>
+</body>
+</html>
