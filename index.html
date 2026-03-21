@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yozakura — Anime Pastel Palette</title>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<script>document.documentElement.dataset.flavor=window.matchMedia('(prefers-color-scheme: dark)').matches?'yoru':'hiru';</script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root { --ease: cubic-bezier(0.4,0,0.2,1); }
@@ -176,7 +175,7 @@ header { margin-bottom: 52px; }
 }
 </style>
 </head>
-<body>
+<body class="yoru">
 <div class="wrap">
 
   <header>
@@ -702,9 +701,7 @@ function set(f){
   renderUI(p);
 }
 
-const mq = window.matchMedia('(prefers-color-scheme: dark)');
-set(mq.matches ? 'yoru' : 'hiru');
-mq.addEventListener('change', e => set(e.matches ? 'yoru' : 'hiru'));
+set('yoru');
 </script>
 </body>
 </html>
