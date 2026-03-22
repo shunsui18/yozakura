@@ -1,0 +1,92 @@
+/* =============================================================================
+   Yozakura Color Palette
+   Flavors: Yoru (Night) · Hiru (Day)
+
+   Usage:
+     @import "yozakura-colors.rasi"
+     background-color: @yoru-base;
+============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   Yoru — Night
+----------------------------------------------------------------------------- */
+
+* {
+    /* Base */
+    yoru-void:      #18203a;
+    yoru-depths:    #1e2840;
+    yoru-base:      #2a3450;
+    yoru-raised:    #303c5c;
+    yoru-hover:     #3a4868;
+    yoru-active:    #445278;
+
+    /* Surface */
+    yoru-rim:       #6070a0;
+    yoru-select:    #7080b0;
+    yoru-match:     #8090c0;
+
+    /* Text */
+    yoru-faint:     #9098c0;
+    yoru-muted:     #b0bcd8;
+    yoru-text:      #d0daf0;
+
+    /* Accents */
+    yoru-lantern:   #f2d4b8;
+    yoru-blush:     #d8aac4;
+    yoru-petal:     #b898d0;
+    yoru-iris:      #9080c0;
+    yoru-wisteria:  #8898c8;
+    yoru-indigo:    #6080b8;
+    yoru-harbour:   #507098;
+    yoru-sky:       #7ab0c8;
+    yoru-seafoam:   #609098;
+    yoru-moss:      #7aa898;
+    yoru-starlight: #e8d870;
+    yoru-amber:     #d0a870;
+    yoru-ember:     #b07888;
+    yoru-crimson:   #c07888;
+    yoru-bloom:     #e098a0;
+    yoru-moon:      #e8eef8;
+
+
+/* -----------------------------------------------------------------------------
+   Hiru — Day
+----------------------------------------------------------------------------- */
+
+    /* Base */
+    hiru-stone:     #d4c4e0;
+    hiru-dusk:      #ddd0ea;
+    hiru-base:      #f0e8f5;
+    hiru-raised:    #ead8f2;
+    hiru-hover:     #e0d0ec;
+    hiru-active:    #d4c4e4;
+
+    /* Surface */
+    hiru-rim:       #c0b0d8;
+    hiru-select:    #a898c4;
+    hiru-match:     #9080b0;
+
+    /* Text */
+    hiru-faint:     #7868a0;
+    hiru-muted:     #4e3e6e;
+    hiru-text:      #2a1848;
+
+    /* Accents */
+    hiru-lantern:   #a86018;
+    hiru-blush:     #a03868;
+    hiru-petal:     #8830a0;
+    hiru-iris:      #6030a0;
+    hiru-wisteria:  #4840b0;
+    hiru-indigo:    #2858b8;
+    hiru-harbour:   #286890;
+    hiru-sky:       #2878a8;
+    hiru-seafoam:   #187870;
+    hiru-moss:      #287848;
+    hiru-starlight: #887018;
+    hiru-amber:     #985818;
+    hiru-ember:     #884058;
+    hiru-crimson:   #983040;
+    hiru-bloom:     #a02868;
+    hiru-cream:     #806030;
+}

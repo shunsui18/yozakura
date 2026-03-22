@@ -1,0 +1,310 @@
+/* =============================================================================
+   Yozakura Color Palette
+   Flavors: Yoru (Night) · Hiru (Day)
+
+   Each color is exported in four forms:
+     @define-color  name hex       — GTK CSS named color
+     --name-hex                    — CSS custom property, hex
+     --name-rgb                    — CSS custom property, rgb()
+     --name-hsl                    — CSS custom property, hsl()
+============================================================================= */
+
+:root {
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Yoru — Night
+     ───────────────────────────────────────────────────────────────────────── */
+
+  /* Base */
+  @define-color yoru-void #18203a;
+  --yoru-void-hex:  #18203a;
+  --yoru-void-rgb:  rgb(24, 32, 58);
+  --yoru-void-hsl:  hsl(226, 41%, 16%);
+
+  @define-color yoru-depths #1e2840;
+  --yoru-depths-hex:  #1e2840;
+  --yoru-depths-rgb:  rgb(30, 40, 64);
+  --yoru-depths-hsl:  hsl(222, 36%, 18%);
+
+  @define-color yoru-base #2a3450;
+  --yoru-base-hex:  #2a3450;
+  --yoru-base-rgb:  rgb(42, 52, 80);
+  --yoru-base-hsl:  hsl(224, 31%, 24%);
+
+  @define-color yoru-raised #303c5c;
+  --yoru-raised-hex:  #303c5c;
+  --yoru-raised-rgb:  rgb(48, 60, 92);
+  --yoru-raised-hsl:  hsl(224, 31%, 27%);
+
+  @define-color yoru-hover #3a4868;
+  --yoru-hover-hex:  #3a4868;
+  --yoru-hover-rgb:  rgb(58, 72, 104);
+  --yoru-hover-hsl:  hsl(222, 28%, 32%);
+
+  @define-color yoru-active #445278;
+  --yoru-active-hex:  #445278;
+  --yoru-active-rgb:  rgb(68, 82, 120);
+  --yoru-active-hsl:  hsl(224, 28%, 37%);
+
+  /* Surface */
+  @define-color yoru-rim #6070a0;
+  --yoru-rim-hex:  #6070a0;
+  --yoru-rim-rgb:  rgb(96, 112, 160);
+  --yoru-rim-hsl:  hsl(225, 25%, 50%);
+
+  @define-color yoru-select #7080b0;
+  --yoru-select-hex:  #7080b0;
+  --yoru-select-rgb:  rgb(112, 128, 176);
+  --yoru-select-hsl:  hsl(225, 29%, 56%);
+
+  @define-color yoru-match #8090c0;
+  --yoru-match-hex:  #8090c0;
+  --yoru-match-rgb:  rgb(128, 144, 192);
+  --yoru-match-hsl:  hsl(225, 34%, 63%);
+
+  /* Text */
+  @define-color yoru-faint #9098c0;
+  --yoru-faint-hex:  #9098c0;
+  --yoru-faint-rgb:  rgb(144, 152, 192);
+  --yoru-faint-hsl:  hsl(230, 28%, 66%);
+
+  @define-color yoru-muted #b0bcd8;
+  --yoru-muted-hex:  #b0bcd8;
+  --yoru-muted-rgb:  rgb(176, 188, 216);
+  --yoru-muted-hsl:  hsl(222, 34%, 77%);
+
+  @define-color yoru-text #d0daf0;
+  --yoru-text-hex:  #d0daf0;
+  --yoru-text-rgb:  rgb(208, 218, 240);
+  --yoru-text-hsl:  hsl(221, 52%, 88%);
+
+  /* Accents */
+  @define-color yoru-lantern #f2d4b8;
+  --yoru-lantern-hex:  #f2d4b8;
+  --yoru-lantern-rgb:  rgb(242, 212, 184);
+  --yoru-lantern-hsl:  hsl(29, 69%, 84%);
+
+  @define-color yoru-blush #d8aac4;
+  --yoru-blush-hex:  #d8aac4;
+  --yoru-blush-rgb:  rgb(216, 170, 196);
+  --yoru-blush-hsl:  hsl(326, 37%, 76%);
+
+  @define-color yoru-petal #b898d0;
+  --yoru-petal-hex:  #b898d0;
+  --yoru-petal-rgb:  rgb(184, 152, 208);
+  --yoru-petal-hsl:  hsl(274, 37%, 71%);
+
+  @define-color yoru-iris #9080c0;
+  --yoru-iris-hex:  #9080c0;
+  --yoru-iris-rgb:  rgb(144, 128, 192);
+  --yoru-iris-hsl:  hsl(255, 34%, 63%);
+
+  @define-color yoru-wisteria #8898c8;
+  --yoru-wisteria-hex:  #8898c8;
+  --yoru-wisteria-rgb:  rgb(136, 152, 200);
+  --yoru-wisteria-hsl:  hsl(225, 37%, 66%);
+
+  @define-color yoru-indigo #6080b8;
+  --yoru-indigo-hex:  #6080b8;
+  --yoru-indigo-rgb:  rgb(96, 128, 184);
+  --yoru-indigo-hsl:  hsl(218, 38%, 55%);
+
+  @define-color yoru-harbour #507098;
+  --yoru-harbour-hex:  #507098;
+  --yoru-harbour-rgb:  rgb(80, 112, 152);
+  --yoru-harbour-hsl:  hsl(213, 31%, 45%);
+
+  @define-color yoru-sky #7ab0c8;
+  --yoru-sky-hex:  #7ab0c8;
+  --yoru-sky-rgb:  rgb(122, 176, 200);
+  --yoru-sky-hsl:  hsl(198, 41%, 63%);
+
+  @define-color yoru-seafoam #609098;
+  --yoru-seafoam-hex:  #609098;
+  --yoru-seafoam-rgb:  rgb(96, 144, 152);
+  --yoru-seafoam-hsl:  hsl(189, 23%, 49%);
+
+  @define-color yoru-moss #7aa898;
+  --yoru-moss-hex:  #7aa898;
+  --yoru-moss-rgb:  rgb(122, 168, 152);
+  --yoru-moss-hsl:  hsl(159, 21%, 57%);
+
+  @define-color yoru-starlight #e8d870;
+  --yoru-starlight-hex:  #e8d870;
+  --yoru-starlight-rgb:  rgb(232, 216, 112);
+  --yoru-starlight-hsl:  hsl(52, 72%, 67%);
+
+  @define-color yoru-amber #d0a870;
+  --yoru-amber-hex:  #d0a870;
+  --yoru-amber-rgb:  rgb(208, 168, 112);
+  --yoru-amber-hsl:  hsl(35, 51%, 63%);
+
+  @define-color yoru-ember #b07888;
+  --yoru-ember-hex:  #b07888;
+  --yoru-ember-rgb:  rgb(176, 120, 136);
+  --yoru-ember-hsl:  hsl(343, 26%, 58%);
+
+  @define-color yoru-crimson #c07888;
+  --yoru-crimson-hex:  #c07888;
+  --yoru-crimson-rgb:  rgb(192, 120, 136);
+  --yoru-crimson-hsl:  hsl(347, 36%, 61%);
+
+  @define-color yoru-bloom #e098a0;
+  --yoru-bloom-hex:  #e098a0;
+  --yoru-bloom-rgb:  rgb(224, 152, 160);
+  --yoru-bloom-hsl:  hsl(353, 54%, 74%);
+
+  @define-color yoru-moon #e8eef8;
+  --yoru-moon-hex:  #e8eef8;
+  --yoru-moon-rgb:  rgb(232, 238, 248);
+  --yoru-moon-hsl:  hsl(218, 53%, 94%);
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     Hiru — Day
+     ───────────────────────────────────────────────────────────────────────── */
+
+  /* Base */
+  @define-color hiru-stone #d4c4e0;
+  --hiru-stone-hex:  #d4c4e0;
+  --hiru-stone-rgb:  rgb(212, 196, 224);
+  --hiru-stone-hsl:  hsl(274, 31%, 82%);
+
+  @define-color hiru-dusk #ddd0ea;
+  --hiru-dusk-hex:  #ddd0ea;
+  --hiru-dusk-rgb:  rgb(221, 208, 234);
+  --hiru-dusk-hsl:  hsl(270, 38%, 87%);
+
+  @define-color hiru-base #f0e8f5;
+  --hiru-base-hex:  #f0e8f5;
+  --hiru-base-rgb:  rgb(240, 232, 245);
+  --hiru-base-hsl:  hsl(277, 39%, 94%);
+
+  @define-color hiru-raised #ead8f2;
+  --hiru-raised-hex:  #ead8f2;
+  --hiru-raised-rgb:  rgb(234, 216, 242);
+  --hiru-raised-hsl:  hsl(282, 50%, 90%);
+
+  @define-color hiru-hover #e0d0ec;
+  --hiru-hover-hex:  #e0d0ec;
+  --hiru-hover-rgb:  rgb(224, 208, 236);
+  --hiru-hover-hsl:  hsl(274, 42%, 87%);
+
+  @define-color hiru-active #d4c4e4;
+  --hiru-active-hex:  #d4c4e4;
+  --hiru-active-rgb:  rgb(212, 196, 228);
+  --hiru-active-hsl:  hsl(270, 37%, 83%);
+
+  /* Surface */
+  @define-color hiru-rim #c0b0d8;
+  --hiru-rim-hex:  #c0b0d8;
+  --hiru-rim-rgb:  rgb(192, 176, 216);
+  --hiru-rim-hsl:  hsl(264, 34%, 77%);
+
+  @define-color hiru-select #a898c4;
+  --hiru-select-hex:  #a898c4;
+  --hiru-select-rgb:  rgb(168, 152, 196);
+  --hiru-select-hsl:  hsl(262, 27%, 68%);
+
+  @define-color hiru-match #9080b0;
+  --hiru-match-hex:  #9080b0;
+  --hiru-match-rgb:  rgb(144, 128, 176);
+  --hiru-match-hsl:  hsl(260, 23%, 60%);
+
+  /* Text */
+  @define-color hiru-faint #7868a0;
+  --hiru-faint-hex:  #7868a0;
+  --hiru-faint-rgb:  rgb(120, 104, 160);
+  --hiru-faint-hsl:  hsl(257, 23%, 52%);
+
+  @define-color hiru-muted #4e3e6e;
+  --hiru-muted-hex:  #4e3e6e;
+  --hiru-muted-rgb:  rgb(78, 62, 110);
+  --hiru-muted-hsl:  hsl(260, 28%, 34%);
+
+  @define-color hiru-text #2a1848;
+  --hiru-text-hex:  #2a1848;
+  --hiru-text-rgb:  rgb(42, 24, 72);
+  --hiru-text-hsl:  hsl(262, 50%, 19%);
+
+  /* Accents */
+  @define-color hiru-lantern #a86018;
+  --hiru-lantern-hex:  #a86018;
+  --hiru-lantern-rgb:  rgb(168, 96, 24);
+  --hiru-lantern-hsl:  hsl(30, 75%, 38%);
+
+  @define-color hiru-blush #a03868;
+  --hiru-blush-hex:  #a03868;
+  --hiru-blush-rgb:  rgb(160, 56, 104);
+  --hiru-blush-hsl:  hsl(332, 48%, 42%);
+
+  @define-color hiru-petal #8830a0;
+  --hiru-petal-hex:  #8830a0;
+  --hiru-petal-rgb:  rgb(136, 48, 160);
+  --hiru-petal-hsl:  hsl(287, 54%, 41%);
+
+  @define-color hiru-iris #6030a0;
+  --hiru-iris-hex:  #6030a0;
+  --hiru-iris-rgb:  rgb(96, 48, 160);
+  --hiru-iris-hsl:  hsl(266, 54%, 41%);
+
+  @define-color hiru-wisteria #4840b0;
+  --hiru-wisteria-hex:  #4840b0;
+  --hiru-wisteria-rgb:  rgb(72, 64, 176);
+  --hiru-wisteria-hsl:  hsl(244, 47%, 47%);
+
+  @define-color hiru-indigo #2858b8;
+  --hiru-indigo-hex:  #2858b8;
+  --hiru-indigo-rgb:  rgb(40, 88, 184);
+  --hiru-indigo-hsl:  hsl(220, 64%, 44%);
+
+  @define-color hiru-harbour #286890;
+  --hiru-harbour-hex:  #286890;
+  --hiru-harbour-rgb:  rgb(40, 104, 144);
+  --hiru-harbour-hsl:  hsl(203, 57%, 36%);
+
+  @define-color hiru-sky #2878a8;
+  --hiru-sky-hex:  #2878a8;
+  --hiru-sky-rgb:  rgb(40, 120, 168);
+  --hiru-sky-hsl:  hsl(202, 62%, 41%);
+
+  @define-color hiru-seafoam #187870;
+  --hiru-seafoam-hex:  #187870;
+  --hiru-seafoam-rgb:  rgb(24, 120, 112);
+  --hiru-seafoam-hsl:  hsl(175, 67%, 28%);
+
+  @define-color hiru-moss #287848;
+  --hiru-moss-hex:  #287848;
+  --hiru-moss-rgb:  rgb(40, 120, 72);
+  --hiru-moss-hsl:  hsl(144, 50%, 31%);
+
+  @define-color hiru-starlight #887018;
+  --hiru-starlight-hex:  #887018;
+  --hiru-starlight-rgb:  rgb(136, 112, 24);
+  --hiru-starlight-hsl:  hsl(47, 70%, 31%);
+
+  @define-color hiru-amber #985818;
+  --hiru-amber-hex:  #985818;
+  --hiru-amber-rgb:  rgb(152, 88, 24);
+  --hiru-amber-hsl:  hsl(30, 73%, 35%);
+
+  @define-color hiru-ember #884058;
+  --hiru-ember-hex:  #884058;
+  --hiru-ember-rgb:  rgb(136, 64, 88);
+  --hiru-ember-hsl:  hsl(340, 36%, 39%);
+
+  @define-color hiru-crimson #983040;
+  --hiru-crimson-hex:  #983040;
+  --hiru-crimson-rgb:  rgb(152, 48, 64);
+  --hiru-crimson-hsl:  hsl(351, 52%, 39%);
+
+  @define-color hiru-bloom #a02868;
+  --hiru-bloom-hex:  #a02868;
+  --hiru-bloom-rgb:  rgb(160, 40, 104);
+  --hiru-bloom-hsl:  hsl(328, 60%, 39%);
+
+  @define-color hiru-cream #806030;
+  --hiru-cream-hex:  #806030;
+  --hiru-cream-rgb:  rgb(128, 96, 48);
+  --hiru-cream-hsl:  hsl(36, 45%, 35%);
+
+}
